@@ -9,7 +9,7 @@ namespace IHS.HotelBooking
 {
     public class BookingManager : IBookingManager
     {
-        private List<Booking> bookings;
+        private readonly List<Booking> bookings;
 
         public BookingManager()
         {
@@ -20,11 +20,18 @@ namespace IHS.HotelBooking
         {
             try
             {
-
+                if (await IsRoomAvailable(room, date).ConfigureAwait(false))
+                {
+                    bookings.Add(new Booking { CustomerSurname = guest, RoomNumber = room, BookingDate = date });
+                }
+                else
+                {
+                    throw new Exception("The room you have selected is unavailable");
+                }
             }
             catch
             {
-
+                throw new Exception("An unexpected error occured when adding a booking.");
             }
         }
 
