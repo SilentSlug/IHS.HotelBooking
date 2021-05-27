@@ -26,7 +26,7 @@ namespace IHS.HotelBooking
                 }
                 else
                 {
-                    throw new BookingException("The room you have selected is unavailable");
+                    throw new BookingException($"Room number {room} is currently unavailable at the selected date: {date}");
                 }
             }
             catch
