@@ -10,10 +10,14 @@ namespace IHS.HotelBooking
     public class BookingManager : IBookingManager
     {
         private readonly List<Booking> bookings;
+        private readonly List<int> hotelRooms;
 
         public BookingManager()
         {
             bookings = new List<Booking>();
+
+            //Persistent data storage was not required so this will do
+            hotelRooms = new List<int>() { 101, 309, 204, 605 };
         }
 
         public async Task AddBooking(string guest, int room, DateTime date)
@@ -59,9 +63,13 @@ namespace IHS.HotelBooking
             }
         }
 
-        public async IAsyncEnumerable<int> GetAvailableRooms(DateTime date)
+        public async Task<IEnumerable<int>> GetAvailableRooms(DateTime date)
         {
-            throw new NotImplementedException();
+            var availableRooms = from hr in hotelRooms
+                                 where IsRoomAvailable(hr, date).Result
+                                 select hr;
+
+            return await Task.FromResult(availableRooms).ConfigureAwait(false);
         }
     }
 }

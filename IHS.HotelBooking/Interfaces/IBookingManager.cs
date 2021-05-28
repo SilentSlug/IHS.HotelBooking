@@ -13,6 +13,6 @@ namespace IHS.HotelBooking.Interfaces
         Task AddBooking(string guest, int room, DateTime date);
 
         //Return a list of all the available room rumbers for the given date
-        IAsyncEnumerable<int> GetAvailableRooms(DateTime date);
+        Task<IEnumerable<int>> GetAvailableRooms(DateTime date);
     }
 }
