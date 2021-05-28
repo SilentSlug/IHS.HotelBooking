@@ -58,5 +58,10 @@ namespace IHS.HotelBooking
                 throw new BookingException("An unexpected error occured when checking room availability.");
             }
         }
+
+        public async IAsyncEnumerable<int> GetAvailableRooms(DateTime date)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
