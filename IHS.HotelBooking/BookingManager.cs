@@ -26,12 +26,14 @@ namespace IHS.HotelBooking
                 }
                 else
                 {
+                    //Custom exception felt more suitable
                     throw new BookingException($"Room number {room} is currently unavailable at the selected date: {date}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("An unexpected error occured when adding a booking.");
+                //This would normally add to logs (Splunk, local file etc)
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -48,9 +50,12 @@ namespace IHS.HotelBooking
 
                 return availability;
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("An unexpected error occured when checking room availability.");
+                //This would normally add to logs (Splunk, local file etc)
+                Console.WriteLine(ex.Message);
+                //Suppress sesitive exception message to user by throwing custom exception
+                throw new BookingException("An unexpected error occured when checking room availability.");
             }
         }
     }
