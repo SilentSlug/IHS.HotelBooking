@@ -19,8 +19,11 @@ namespace IHS.HotelBooking
             //Display available rooms to console
             foreach (var room in availableRooms)
             {
-                Console.WriteLine(room.ToString());
+                Console.WriteLine($"Room {room} is available");
             }
+
+            //Attempt to book a room that doesn't exist
+            await bookingManager.AddBooking("South", 100, today).ConfigureAwait(false);
 
             //Check if room 101 is available
             await Task.Run(() =>
@@ -43,7 +46,7 @@ namespace IHS.HotelBooking
             //Display available rooms to console
             foreach (var room in availableRooms)
             {
-                Console.WriteLine(room.ToString());
+                Console.WriteLine($"Room {room} is available");
             }
 
             //Attempt to add booking for an unavailable room

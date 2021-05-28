@@ -24,14 +24,19 @@ namespace IHS.HotelBooking
         {
             try
             {
-                if (await IsRoomAvailable(room, date).ConfigureAwait(false))
+                if (!await IsRoomAvailable(room, date).ConfigureAwait(false))
+                {
+                    //Custom exception felt more suitable
+                    throw new BookingException($"Room number {room} is currently unavailable at the selected date: {date}");
+                }
+
+                if (hotelRooms.Contains(room))
                 {
                     bookings.Add(new Booking { CustomerSurname = guest, RoomNumber = room, BookingDate = date });
                 }
                 else
                 {
-                    //Custom exception felt more suitable
-                    throw new BookingException($"Room number {room} is currently unavailable at the selected date: {date}");
+                    throw new BookingException($"Room number {room} does not exist.");
                 }
             }
             catch(Exception ex)
