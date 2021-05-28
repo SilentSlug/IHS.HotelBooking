@@ -65,11 +65,21 @@ namespace IHS.HotelBooking
 
         public async Task<IEnumerable<int>> GetAvailableRooms(DateTime date)
         {
-            var availableRooms = from hr in hotelRooms
-                                 where IsRoomAvailable(hr, date).Result
-                                 select hr;
+            try
+            {
+                var availableRooms = from hr in hotelRooms
+                                     where IsRoomAvailable(hr, date).Result
+                                     select hr;
 
-            return await Task.FromResult(availableRooms).ConfigureAwait(false);
+                return await Task.FromResult(availableRooms).ConfigureAwait(false);
+            }
+            catch(Exception ex)
+            {
+                //This would normally add to logs (Splunk, local file etc)
+                Console.WriteLine(ex.Message);
+                //Suppress sesitive exception message to user by throwing custom exception
+                throw new BookingException("An unexpected error occured when getting available rooms.");
+            }
         }
     }
 }
